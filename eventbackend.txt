@@ -1,0 +1,219 @@
+# Thunder Client Collection for Event Management Backend
+
+## Requirements
+- Node.js (v16+ recommended)
+- MongoDB (local ya Atlas)
+
+## Setup & Run
+
+1. **Repository Clone karein**
+   ```bash
+   git clone <repo-url>
+   cd event-management-backend
+   ```
+
+2. **Dependencies Install karein**
+   ```bash
+   npm install
+   ```
+
+3. **.env File Banayein**
+   - `.env.example` ko copy karke `.env` naam se file banayein.
+   - Usme apna MongoDB URI aur JWT_SECRET fill karein.
+
+4. **MongoDB Start karein**
+   - Agar local MongoDB use kar rahe hain toh:
+     ```bash
+     mongod
+     ```
+
+5. **Server Start karein**
+   ```bash
+   npm run dev
+   ```
+   Ya
+   ```bash
+   npm start
+   ```
+
+---
+
+## API Endpoints (Base URL: `http://localhost:5000`)
+
+### **Auth**
+- **Register:**  
+  `POST http://localhost:5000/api/auth/register`  
+  Body: {
+  "name": "Vaishnavi",
+  "email": "vaishnavi@example.com",
+  "password": "123456"
+}
+
+- **Login:**  
+  `POST http://localhost:5000/api/auth/login`  
+  Body: {
+  "email": "vaishnavi@example.com",
+  "password": "123456"
+}
+
+- **Get My Profile:**  
+  `GET http://localhost:5000/api/auth/me`  
+  (Header: `Authorization: Bearer <token>`)
+
+---
+
+### **Events**
+- **List Events:**  
+  `GET http://localhost:5000/api/events`  
+  (Filters: `?date=YYYY-MM-DD&location=city&approved=true`)
+
+- **Create Event:**  
+  `POST http://localhost:5000/api/events`  
+  (auth required)
+  Body - {
+  "title": "Tech Conference 2025",
+  "description": "A conference for developers and tech enthusiasts.",
+  "date": "2025-08-20",
+  "time": "10:00 AM",
+  "location": "Pune",
+  "capacity": 100
+}
+
+- **Update Event:**  
+  `PUT http://localhost:5000/api/events/:id`  
+  (auth required, only owner/admin)
+  Body - {
+  "title": "Tech Conference 2025 - Updated",
+  "capacity": 100
+}
+
+
+- **Delete Event:**  
+  `DELETE http://localhost:5000/api/events/:id`  
+  (auth required, only owner/admin)
+
+- **Register for Event:**  
+  `POST http://localhost:5000/api/events/:id/register`  
+  (auth required)
+
+- **Cancel Registration:**  
+  `POST http://localhost:5000/api/events/:id/cancel`  
+  (auth required)
+
+- **See My Registrations:**  
+  `GET http://localhost:5000/api/events/registrations/me`  
+  (auth required)
+
+---
+
+### **Admin**
+
+- **For Admin Login**
+  Terminal - node createAdmin.js
+  (Header: `Authorization: Bearer <token>`)
+
+- **Pending Events:**  
+  `GET http://localhost:5000/api/admin/pending`  
+  (auth + admin)
+
+- **Approve Event:**  
+  `POST http://localhost:5000/api/admin/approve/:id`  
+  (auth + admin)
+
+- **All Events:**  
+  `GET http://localhost:5000/api/admin/all`  
+  (auth + admin)
+
+---
+
+## Notes
+
+- Sabhi protected endpoints par `Authorization: Bearer <token>` header lagana zaroori hai.
+- Admin endpoints sirf admin user ke liye hain.
+- Project ko customize kar sakte hain: pagination, search, notifications, etc.
+
+---
+
+**Quick Start Example:**
+```bash
+git clone <repo-url>
+cd event-management-backend
+npm install
+cp .env.example .env
+# .env file me apna MongoDB URI aur JWT_SECRET set karein
+npm run dev
+```
+
+Server start hone ke baad, API endpoints par request bhejein!
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+✅ Features Covered:
+
+1.Users can create and manage events
+* POST /api/events (create event)
+* PUT /api/events/:id (update event)
+* DELETE /api/events/:id (delete event)
+
+2.Other users can register for an event (with capacity validation)
+* POST /api/events/:id/register (register)
+* Capacity validation backend me implemented hai
+
+3.View all events, filter by date/location
+* GET /api/events (with filters)
+
+4.Cancel registrations
+* POST /api/events/:id/cancel
+
+5.User authentication
+* POST /api/auth/register
+* POST /api/auth/login
+* GET /api/auth/me
+
+6.Admin roles to manage event approvals
+* GET /api/admin/pending
+* POST /api/admin/approve/:id
+* GET /api/admin/all
+
+7.See my registrations
+* GET /api/events/registrations/me
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
